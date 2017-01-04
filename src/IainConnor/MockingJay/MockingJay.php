@@ -4,9 +4,7 @@
 namespace IainConnor\MockingJay;
 
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Cache\ArrayCache;
 use Faker\Factory;
 use Faker\Generator;
