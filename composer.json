@@ -1,0 +1,17 @@
+{
+    "name": "iainconnor/mocking-jay",
+    "description": "Object mocking by Annotations.",
+    "type": "library",
+    "require": {
+        "doctrine/annotations": "^1.3",
+        "fzaninotto/faker": "^1.6"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Iain Connor",
+            "email": "iainconnor@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
