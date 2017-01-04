@@ -13,5 +13,13 @@
             "email": "iainconnor@gmail.com"
         }
     ],
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {
+            "IainConnor\\MockingJay\\": "src/"
+        }
+    },
+    "require-dev": {
+        "doctrine/cache": "^1.6"
+    }
 }
