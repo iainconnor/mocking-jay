@@ -148,7 +148,9 @@ class MockingJay {
 
 		$mockedValue = null;
 
-		if ($typeHint->baseType == TypeHint::$arrayType) {
+		$type = $typeHint->types[0];
+
+		if ($type->type == TypeHint::ARRAY_TYPE) {
 			$mockedValue = [];
 			$mockValueCount = $count == null ? null : $count->count;
 			if ($mockValueCount == null) {
@@ -159,20 +161,20 @@ class MockingJay {
 				}
 			}
 
-			if ( $typeHint->genericType ) {
-				$genericTypeHint = new TypeHint($typeHint->genericType, $typeHint->variableName);
+			if ( $type->genericType ) {
+				$genericTypeHint = new TypeHint([$type->genericType], $typeHint->variableName);
 			} else {
-				$genericTypeHint = new TypeHint('string', $typeHint->variableName);
+				$genericTypeHint = new TypeHint(['string'], $typeHint->variableName);
 			}
 
 			for ($i = 0; $i < $mockValueCount; $i++) {
 				$mockedValue[] = static::generateMockValueForTypeHint($genericTypeHint);
 			}
-		} else if (array_key_exists($typeHint->baseType, static::$fakerProviders)) {
-			$mockedValue = static::$faker->{static::$fakerProviders[$typeHint->baseType]};
+		} else if (array_key_exists($type->type, static::$fakerProviders)) {
+			$mockedValue = static::$faker->{static::$fakerProviders[$type->type]};
 		} else {
 			// Recurse.
-			$mockedValue = static::mock($typeHint->baseType);
+			$mockedValue = static::mock($type->type);
 		}
 
 		return $mockedValue;
