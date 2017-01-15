@@ -8,6 +8,7 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Cache\ArrayCache;
 use Faker\Factory;
 use Faker\Generator;
+use IainConnor\Cornucopia\Type;
 use Iainconnor\MockingJay\Annotations\Count;
 use IainConnor\MockingJay\Annotations\IgnoreMock;
 use IainConnor\MockingJay\Annotations\Mock;
@@ -147,8 +148,7 @@ class MockingJay {
 	protected static function generateMockValueForTypeHint(TypeHint $typeHint, Count $count = null) {
 
 		$mockedValue = null;
-
-		$type = $typeHint->types[0];
+		$type = $typeHint->types[0];;
 
 		if ($type->type == TypeHint::ARRAY_TYPE) {
 			$mockedValue = [];
@@ -161,11 +161,15 @@ class MockingJay {
 				}
 			}
 
+			$genericType = new Type();
+
 			if ( $type->genericType ) {
-				$genericTypeHint = new TypeHint([$type->genericType], $typeHint->variableName);
+				$genericType->type = $type->genericType;
 			} else {
-				$genericTypeHint = new TypeHint(['string'], $typeHint->variableName);
+				$genericType->type = 'string';
 			}
+
+			$genericTypeHint = new TypeHint([$genericType], $typeHint->variableName);
 
 			for ($i = 0; $i < $mockValueCount; $i++) {
 				$mockedValue[] = static::generateMockValueForTypeHint($genericTypeHint);
