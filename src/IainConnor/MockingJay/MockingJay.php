@@ -11,8 +11,9 @@ use Faker\Generator;
 use Iainconnor\MockingJay\Annotations\Count;
 use IainConnor\MockingJay\Annotations\IgnoreMock;
 use IainConnor\MockingJay\Annotations\Mock;
-use IainConnor\MockingJay\Annotations\TypeHint;
+use IainConnor\Cornucopia\Annotations\TypeHint;
 use IainConnor\MockingJay\Annotations\Whitelist;
+use IainConnor\Cornucopia\CachedReader;
 
 class MockingJay {
 
@@ -158,7 +159,11 @@ class MockingJay {
 				}
 			}
 
-			$genericTypeHint = new TypeHint($typeHint->genericType);
+			if ( $typeHint->genericType ) {
+				$genericTypeHint = new TypeHint($typeHint->genericType, $typeHint->variableName);
+			} else {
+				$genericTypeHint = new TypeHint('string', $typeHint->variableName);
+			}
 
 			for ($i = 0; $i < $mockValueCount; $i++) {
 				$mockedValue[] = static::generateMockValueForTypeHint($genericTypeHint);

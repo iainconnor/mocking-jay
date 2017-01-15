@@ -22,10 +22,9 @@ class Foo {
 	public $ipsum;
 
 	/**
-	 * Or arrays in another format.
 	 * And you can specify the count of items to generate.
 	 *
-	 * @var array string
+	 * @var array<string>
 	 * @\IainConnor\MockingJay\Annotations\Count(count=3)
 	 */
 	public $dolor;
@@ -114,8 +113,8 @@ class Bar {
 // You should always set an AnnotationReader to improve performance.
 // @see http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html
 \IainConnor\MockingJay\MockingJay::setAnnotationReader(
-	new \IainConnor\MockingJay\CachedReader(
-		new \IainConnor\MockingJay\AnnotationReader(),
+	new \IainConnor\Cornucopia\CachedReader(
+		new \IainConnor\Cornucopia\AnnotationReader(),
 		new \Doctrine\Common\Cache\ArrayCache()
 	));
 
