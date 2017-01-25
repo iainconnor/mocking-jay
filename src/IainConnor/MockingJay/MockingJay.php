@@ -148,7 +148,7 @@ class MockingJay {
 	protected static function generateMockValueForTypeHint(TypeHint $typeHint, Count $count = null) {
 
 		$mockedValue = null;
-		$type = $typeHint->types[0];;
+		$type = $typeHint->types[0];
 
 		if ($type->type == TypeHint::ARRAY_TYPE) {
 			$mockedValue = [];
