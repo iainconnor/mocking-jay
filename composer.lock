@@ -80,12 +80,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "e14f7e04cf7106fed6061b42aeeb56df556db49d"
+                "reference": "e64d917c29fd8bb4ac13e122ec6de9721c4cf0e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/e14f7e04cf7106fed6061b42aeeb56df556db49d",
-                "reference": "e14f7e04cf7106fed6061b42aeeb56df556db49d",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/e64d917c29fd8bb4ac13e122ec6de9721c4cf0e7",
+                "reference": "e64d917c29fd8bb4ac13e122ec6de9721c4cf0e7",
                 "shasum": ""
             },
             "require": {
@@ -95,7 +95,7 @@
                 "doctrine/common": ">2.2,<2.4"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.6.2",
+                "phpunit/phpunit": "^5.7",
                 "predis/predis": "~1.0"
             },
             "type": "library",
@@ -141,7 +141,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2016-12-17 21:41:50"
+            "time": "2017-01-20 09:27:09"
         },
         {
             "name": "doctrine/lexer",
@@ -253,12 +253,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/iainconnor/cornucopia.git",
-                "reference": "4930d63cd603857e794ec7b18cf18c4486e7d630"
+                "reference": "ea3c48ce28b2c40a76eaff6ac5574975179efd16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/iainconnor/cornucopia/zipball/4930d63cd603857e794ec7b18cf18c4486e7d630",
-                "reference": "4930d63cd603857e794ec7b18cf18c4486e7d630",
+                "url": "https://api.github.com/repos/iainconnor/cornucopia/zipball/ea3c48ce28b2c40a76eaff6ac5574975179efd16",
+                "reference": "ea3c48ce28b2c40a76eaff6ac5574975179efd16",
                 "shasum": ""
             },
             "require": {
@@ -282,7 +282,7 @@
                 }
             ],
             "description": "Expanded Annotation processor.",
-            "time": "2017-01-15 01:41:42"
+            "time": "2017-01-25 19:13:38"
         }
     ],
     "packages-dev": [],
