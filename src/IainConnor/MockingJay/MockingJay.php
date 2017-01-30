@@ -8,6 +8,7 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Cache\ArrayCache;
 use Faker\Factory;
 use Faker\Generator;
+use IainConnor\Cornucopia\AnnotationReader;
 use IainConnor\Cornucopia\Type;
 use Iainconnor\MockingJay\Annotations\Count;
 use IainConnor\MockingJay\Annotations\IgnoreMock;
@@ -18,57 +19,73 @@ use IainConnor\Cornucopia\CachedReader;
 
 class MockingJay {
 
-	/**
-	 * Has the instance been booted yet.
-	 * @var bool
-	 */
-	protected static $booted = false;
+    /**
+     * @var MockingJay Current booted instance.
+     */
+    protected static $instance;
 
 	/**
-	 * Faker providers for the basic types.
-	 * @var array
+	 * @var array Faker providers for the basic types.
 	 */
-	protected static $fakerProviders = [
-		'string' => 'sentence',
-		'int' => 'randomDigitNotNull',
-		'float' => 'randomFloat',
-		'bool' => 'boolean',
-	];
+	protected $fakerProviders;
 
 	/**
-	 * Doctrine Annotation reader.
 	 * @see http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html
-	 * @var CachedReader
+	 * @var CachedReader Doctrine Annotation reader.
 	 */
-	protected static $annotationReader;
+	protected $annotationReader;
 
 	/**
-	 * Faker generator.
-	 * @var Generator
+	 * @var Generator Faker generator.
 	 */
-	protected static $faker;
+	protected $faker;
 
-	/**
+    /**
+     * MockingJay constructor.
+     * @param array $fakerProviders
+     * @param $annotationReader
+     * @param Generator $faker
+     */
+    public function __construct(array $fakerProviders, $annotationReader, Generator $faker)
+    {
+        $this->fakerProviders = $fakerProviders;
+        $this->annotationReader = $annotationReader;
+        $this->faker = $faker;
+    }
+
+    /**
+     * @return MockingJay Get or boot the instance.
+     */
+    public static function instance() {
+        if ( static::$instance == null ) {
+            static::$instance = static::boot();
+        }
+
+        return static::$instance;
+    }
+
+    /**
 	 * Boot and ensure requirements are filled.
+     * @return MockingJay
 	 */
 	protected static function boot() {
 
-		if (!static::$booted) {
-			AnnotationRegistry::registerAutoloadNamespace('\IainConnor\MockingJay\Annotations', static::getSrcRoot());
-			static::$booted = true;
-		}
+        AnnotationRegistry::registerAutoloadNamespace('\IainConnor\MockingJay\Annotations', static::getSrcRoot());
 
-		if (static::$annotationReader == null) {
-			static::$annotationReader = new CachedReader(
-				new \IainConnor\MockingJay\AnnotationReader(),
-				new ArrayCache(),
-				false
-			);
-		}
-
-		if (static::$faker == null) {
-			static::$faker = Factory::create();
-		}
+        return new MockingJay(
+            [
+                'string' => 'sentence',
+                'int' => 'randomDigitNotNull',
+                'float' => 'randomFloat',
+                'bool' => 'boolean',
+            ],
+            new CachedReader(
+                new AnnotationReader(),
+                new ArrayCache(),
+                false
+            ),
+            Factory::create()
+        );
 	}
 
 	/**
@@ -77,7 +94,7 @@ class MockingJay {
 	 * @param $class
 	 * @return object
 	 */
-	public static function mock($class) {
+	public function mock($class) {
 
 		$reflectedClass = new \ReflectionClass($class);
 		$reflectedClassInstance = $reflectedClass->newInstance();
@@ -91,29 +108,27 @@ class MockingJay {
 	 * @param $instance
 	 * @return object
 	 */
-	public static function mockInstance($instance) {
-
-		static::boot();
+	public function mockInstance($instance) {
 
 		$reflectedClass = new \ReflectionClass($instance);
 
-		$inWhiteListMode = static::$annotationReader->getClassAnnotation($reflectedClass, Whitelist::class) !== null;
+		$inWhiteListMode = $this->annotationReader->getClassAnnotation($reflectedClass, Whitelist::class) !== null;
 
 		foreach ($reflectedClass->getProperties() as $reflectedProperty) {
 			$reflectedProperty->setAccessible(true);
 
 			if ( $reflectedProperty->getValue($instance) == null ) {
-				foreach (static::$annotationReader->getPropertyAnnotations($reflectedProperty) as $propertyAnnotation) {
+				foreach ($this->annotationReader->getPropertyAnnotations($reflectedProperty) as $propertyAnnotation) {
 					if ($propertyAnnotation instanceof TypeHint) {
 						/** @var $mockAnnotation \IainConnor\MockingJay\Annotations\Mock */
-						$mockAnnotation = static::$annotationReader->getPropertyAnnotation($reflectedProperty, Mock::class);
-						if (($inWhiteListMode && $mockAnnotation !== null) || (!$inWhiteListMode && static::$annotationReader->getPropertyAnnotation($reflectedProperty, IgnoreMock::class) === null)) {
+						$mockAnnotation = $this->annotationReader->getPropertyAnnotation($reflectedProperty, Mock::class);
+						if (($inWhiteListMode && $mockAnnotation !== null) || (!$inWhiteListMode && $this->annotationReader->getPropertyAnnotation($reflectedProperty, IgnoreMock::class) === null)) {
 							$wasMocked = false;
 							$mockedValue = null;
 
 							if ($mockAnnotation != null) {
 								if ($mockAnnotation->fakerProvider != null) {
-									$mockedValue = static::$faker->{$mockAnnotation->fakerProvider};
+									$mockedValue = $this->faker->{$mockAnnotation->fakerProvider};
 									$wasMocked = true;
 								} else if ($mockAnnotation->callback != null) {
 									$mockedValue = $instance->{$mockAnnotation->callback}();
@@ -122,7 +137,7 @@ class MockingJay {
 							}
 
 							if (!$wasMocked) {
-								$mockedValue = static::generateMockValueForTypeHint($propertyAnnotation, static::$annotationReader->getPropertyAnnotation($reflectedProperty, Count::class));
+								$mockedValue = $this->generateMockValueForTypeHint($propertyAnnotation, $this->annotationReader->getPropertyAnnotation($reflectedProperty, Count::class));
 								$wasMocked = true;
 							}
 
@@ -145,7 +160,7 @@ class MockingJay {
 	 * @param Count|null $count
 	 * @return array|null|object
 	 */
-	protected static function generateMockValueForTypeHint(TypeHint $typeHint, Count $count = null) {
+	protected function generateMockValueForTypeHint(TypeHint $typeHint, Count $count = null) {
 
 		$mockedValue = null;
 		$type = $typeHint->types[0];
@@ -172,13 +187,13 @@ class MockingJay {
 			$genericTypeHint = new TypeHint([$genericType], $typeHint->variableName);
 
 			for ($i = 0; $i < $mockValueCount; $i++) {
-				$mockedValue[] = static::generateMockValueForTypeHint($genericTypeHint);
+				$mockedValue[] = $this->generateMockValueForTypeHint($genericTypeHint);
 			}
-		} else if (array_key_exists($type->type, static::$fakerProviders)) {
-			$mockedValue = static::$faker->{static::$fakerProviders[$type->type]};
+		} else if (array_key_exists($type->type, $this->fakerProviders)) {
+			$mockedValue = $this->faker->{$this->fakerProviders[$type->type]};
 		} else {
 			// Recurse.
-			$mockedValue = static::mock($type->type);
+			$mockedValue = $this->mock($type->type);
 		}
 
 		return $mockedValue;
@@ -189,9 +204,9 @@ class MockingJay {
 	 *
 	 * @param array $fakerProviders
 	 */
-	public static function setFakerProviders($fakerProviders) {
+	public function setFakerProviders($fakerProviders) {
 
-		self::$fakerProviders = $fakerProviders;
+		$this->fakerProviders = $fakerProviders;
 	}
 
 	/**
@@ -200,9 +215,9 @@ class MockingJay {
 	 * @param $type
 	 * @param $fakerProvider
 	 */
-	public static function addFakerProvider($type, $fakerProvider) {
+	public function addFakerProvider($type, $fakerProvider) {
 
-		self::$fakerProviders[$type] = $fakerProvider;
+        $this->fakerProviders[$type] = $fakerProvider;
 	}
 
 	/**
@@ -210,9 +225,9 @@ class MockingJay {
 	 *
 	 * @param $fakerProviders
 	 */
-	public static function addFakerProviders($fakerProviders) {
+	public function addFakerProviders($fakerProviders) {
 
-		self::$fakerProviders = array_merge(self::$fakerProviders, $fakerProviders);
+		$this->fakerProviders = array_merge($this->fakerProviders, $fakerProviders);
 	}
 
 	/**
@@ -221,9 +236,9 @@ class MockingJay {
 	 * @see http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html
 	 * @param CachedReader $annotationReader
 	 */
-	public static function setAnnotationReader($annotationReader) {
+	public function setAnnotationReader($annotationReader) {
 
-		self::$annotationReader = $annotationReader;
+		$this->annotationReader = $annotationReader;
 	}
 
 	/**
@@ -231,9 +246,9 @@ class MockingJay {
 	 *
 	 * @param Generator $faker
 	 */
-	public static function setFaker($faker) {
+	public function setFaker($faker) {
 
-		self::$faker = $faker;
+		$this->faker = $faker;
 	}
 
 	public static function getProjectRoot() {

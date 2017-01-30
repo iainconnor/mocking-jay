@@ -1,5 +1,7 @@
 <?php
 
+use IainConnor\MockingJay\MockingJay;
+
 include(dirname(__FILE__) . "/vendor/autoload.php");
 
 /**
@@ -110,18 +112,20 @@ class Bar {
 	public $ipsum;
 }
 
+$mockingJay = MockingJay::instance();
+
 // You should always set an AnnotationReader to improve performance.
 // @see http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html
-\IainConnor\MockingJay\MockingJay::setAnnotationReader(
+$mockingJay->setAnnotationReader(
 	new \IainConnor\Cornucopia\CachedReader(
 		new \IainConnor\Cornucopia\AnnotationReader(),
 		new \Doctrine\Common\Cache\ArrayCache()
 	));
 
 // Mock an instance of `Foo` and dump it out.
-var_dump(\IainConnor\MockingJay\MockingJay::mock(Foo::class));
+var_dump($mockingJay->mock(Foo::class));
 
 // Create a copy of `Foo` and mock the unset properties and dump it out.
 $foo = new Foo();
 $foo->lorem = "Lorem";
-var_dump(\IainConnor\MockingJay\MockingJay::mockInstance($foo));
+var_dump($mockingJay->mockInstance($foo));
