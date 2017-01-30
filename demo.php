@@ -110,6 +110,22 @@ class Bar {
 	 * @var string
 	 */
 	public $ipsum;
+
+    /**
+     * @\IainConnor\MockingJay\Annotations\Mock()
+     * @var Baz
+     */
+	public $sit;
+}
+
+/**
+ * Class Baz
+ */
+class Baz {
+    /**
+     * @var boolean
+     */
+    public $lorem;
 }
 
 $mockingJay = MockingJay::instance();

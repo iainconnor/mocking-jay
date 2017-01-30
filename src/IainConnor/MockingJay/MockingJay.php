@@ -40,6 +40,9 @@ class MockingJay {
 	 */
 	protected $faker;
 
+    /** @var int Maximum depth to recurse in parsed Objects */
+    protected $maxRecursionDepth = 3;
+
     /**
      * MockingJay constructor.
      * @param array $fakerProviders
@@ -88,27 +91,29 @@ class MockingJay {
         );
 	}
 
-	/**
-	 * Retrieves an instance of the given class with values mocked.
-	 *
-	 * @param $class
-	 * @return object
-	 */
-	public function mock($class) {
+    /**
+     * Retrieves an instance of the given class with values mocked.
+     *
+     * @param $class
+     * @param int $depth
+     * @return object
+     */
+	public function mock($class, $depth = 1) {
 
 		$reflectedClass = new \ReflectionClass($class);
 		$reflectedClassInstance = $reflectedClass->newInstance();
 
-		return static::mockInstance($reflectedClassInstance);
+		return $this->mockInstance($reflectedClassInstance, $depth);
 	}
 
-	/**
-	 * Retrieves a copy of the given object with null values mocked.
-	 *
-	 * @param $instance
-	 * @return object
-	 */
-	public function mockInstance($instance) {
+    /**
+     * Retrieves a copy of the given object with null values mocked.
+     *
+     * @param $instance
+     * @param int $depth
+     * @return object
+     */
+	public function mockInstance($instance, $depth = 1) {
 
 		$reflectedClass = new \ReflectionClass($instance);
 
@@ -137,7 +142,7 @@ class MockingJay {
 							}
 
 							if (!$wasMocked) {
-								$mockedValue = $this->generateMockValueForTypeHint($propertyAnnotation, $this->annotationReader->getPropertyAnnotation($reflectedProperty, Count::class));
+								$mockedValue = $this->generateMockValueForTypeHint($propertyAnnotation, $this->annotationReader->getPropertyAnnotation($reflectedProperty, Count::class), $depth);
 								$wasMocked = true;
 							}
 
@@ -153,14 +158,15 @@ class MockingJay {
 		return $instance;
 	}
 
-	/**
-	 * Retrieves the mocked value for the given type hint.
-	 *
-	 * @param TypeHint $typeHint
-	 * @param Count|null $count
-	 * @return array|null|object
-	 */
-	protected function generateMockValueForTypeHint(TypeHint $typeHint, Count $count = null) {
+    /**
+     * Retrieves the mocked value for the given type hint.
+     *
+     * @param TypeHint $typeHint
+     * @param Count|null $count
+     * @param int $depth
+     * @return array|null|object
+     */
+	protected function generateMockValueForTypeHint(TypeHint $typeHint, Count $count = null, $depth = 1) {
 
 		$mockedValue = null;
 		$type = $typeHint->types[0];
@@ -187,13 +193,16 @@ class MockingJay {
 			$genericTypeHint = new TypeHint([$genericType], $typeHint->variableName);
 
 			for ($i = 0; $i < $mockValueCount; $i++) {
-				$mockedValue[] = $this->generateMockValueForTypeHint($genericTypeHint);
+				$mockedValue[] = $this->generateMockValueForTypeHint($genericTypeHint, null, 1);
 			}
 		} else if (array_key_exists($type->type, $this->fakerProviders)) {
 			$mockedValue = $this->faker->{$this->fakerProviders[$type->type]};
 		} else {
+
 			// Recurse.
-			$mockedValue = $this->mock($type->type);
+            if ( $depth <= $this->maxRecursionDepth ) {
+                $mockedValue = $this->mock($type->type, $depth + 1);
+            }
 		}
 
 		return $mockedValue;
@@ -250,6 +259,14 @@ class MockingJay {
 
 		$this->faker = $faker;
 	}
+
+    /**
+     * @param int $maxRecursionDepth
+     */
+    public function setMaxRecursionDepth($maxRecursionDepth)
+    {
+        $this->maxRecursionDepth = $maxRecursionDepth;
+    }
 
 	public static function getProjectRoot() {
 
