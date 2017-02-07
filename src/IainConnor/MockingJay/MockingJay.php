@@ -101,6 +101,7 @@ class MockingJay {
 	public function mock($class, $depth = 1) {
 
 	    if ( array_key_exists($class, $this->fakerProviders) ) {
+
             return $this->faker->{$this->fakerProviders[$class]};
         }
 
