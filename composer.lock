@@ -203,12 +203,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "03eb255d66bf1c11fccb4b4d1ed62fee70e3b6f4"
+                "reference": "a2dec96198bb146ffead806700074b0ec8d07f2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/03eb255d66bf1c11fccb4b4d1ed62fee70e3b6f4",
-                "reference": "03eb255d66bf1c11fccb4b4d1ed62fee70e3b6f4",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/a2dec96198bb146ffead806700074b0ec8d07f2f",
+                "reference": "a2dec96198bb146ffead806700074b0ec8d07f2f",
                 "shasum": ""
             },
             "require": {
@@ -245,7 +245,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2017-01-05 16:44:55"
+            "time": "2017-02-01 09:18:35"
         },
         {
             "name": "iainconnor/cornucopia",
@@ -253,12 +253,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/iainconnor/cornucopia.git",
-                "reference": "52d1fdb4bd3ec141ee10f5299f484b5e47a9c0e1"
+                "reference": "335429aa11858e5e615ebc315e24a654cd383456"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/iainconnor/cornucopia/zipball/52d1fdb4bd3ec141ee10f5299f484b5e47a9c0e1",
-                "reference": "52d1fdb4bd3ec141ee10f5299f484b5e47a9c0e1",
+                "url": "https://api.github.com/repos/iainconnor/cornucopia/zipball/335429aa11858e5e615ebc315e24a654cd383456",
+                "reference": "335429aa11858e5e615ebc315e24a654cd383456",
                 "shasum": ""
             },
             "require": {
@@ -282,7 +282,7 @@
                 }
             ],
             "description": "Expanded Annotation processor.",
-            "time": "2017-01-27 19:46:46"
+            "time": "2017-02-07 01:51:33"
         }
     ],
     "packages-dev": [],
