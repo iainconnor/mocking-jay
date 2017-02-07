@@ -99,6 +99,10 @@ class MockingJay {
      * @return object
      */
 	public function mock($class, $depth = 1) {
+	    
+	    if ( array_key_exists($class, $this->fakerProviders) ) {
+            $this->faker->{$this->fakerProviders[$class]};
+        }
 
 		$reflectedClass = new \ReflectionClass($class);
 		$reflectedClassInstance = $reflectedClass->newInstance();
