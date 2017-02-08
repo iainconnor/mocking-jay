@@ -171,7 +171,7 @@ class MockingJay {
      * @param int $depth
      * @return array|null|object
      */
-	protected function generateMockValueForTypeHint(TypeHint $typeHint, Count $count = null, $depth = 1) {
+	public function generateMockValueForTypeHint(TypeHint $typeHint, Count $count = null, $depth = 1) {
 
 		$mockedValue = null;
 		$type = $typeHint->types[0];
