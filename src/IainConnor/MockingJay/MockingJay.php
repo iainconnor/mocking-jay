@@ -127,7 +127,7 @@ class MockingJay {
 		foreach ($reflectedClass->getProperties() as $reflectedProperty) {
 			$reflectedProperty->setAccessible(true);
 
-			if ( $reflectedProperty->getValue($instance) == null ) {
+			if ( $reflectedProperty->getValue($instance) === null ) {
 				foreach ($this->annotationReader->getPropertyAnnotations($reflectedProperty) as $propertyAnnotation) {
 					if ($propertyAnnotation instanceof TypeHint) {
 						/** @var $mockAnnotation \IainConnor\MockingJay\Annotations\Mock */
