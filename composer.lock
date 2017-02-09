@@ -253,12 +253,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/iainconnor/cornucopia.git",
-                "reference": "335429aa11858e5e615ebc315e24a654cd383456"
+                "reference": "fd2b834f94d29ace1b3567a61bd1035de6f016df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/iainconnor/cornucopia/zipball/335429aa11858e5e615ebc315e24a654cd383456",
-                "reference": "335429aa11858e5e615ebc315e24a654cd383456",
+                "url": "https://api.github.com/repos/iainconnor/cornucopia/zipball/fd2b834f94d29ace1b3567a61bd1035de6f016df",
+                "reference": "fd2b834f94d29ace1b3567a61bd1035de6f016df",
                 "shasum": ""
             },
             "require": {
@@ -282,7 +282,7 @@
                 }
             ],
             "description": "Expanded Annotation processor.",
-            "time": "2017-02-07 01:51:33"
+            "time": "2017-02-09 02:07:01"
         }
     ],
     "packages-dev": [],
