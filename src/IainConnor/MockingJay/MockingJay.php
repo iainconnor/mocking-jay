@@ -41,7 +41,7 @@ class MockingJay {
 	protected $faker;
 
     /** @var int Maximum depth to recurse in parsed Objects */
-    protected $maxRecursionDepth = 3;
+    protected $maxRecursionDepth = 5;
 
     /**
      * MockingJay constructor.
