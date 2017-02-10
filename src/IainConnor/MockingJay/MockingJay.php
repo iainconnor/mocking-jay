@@ -73,7 +73,7 @@ class MockingJay {
 	 */
 	protected static function boot() {
 
-        AnnotationRegistry::registerAutoloadNamespace('\IainConnor\MockingJay\Annotations', static::getSrcRoot());
+        AnnotationRegistry::registerAutoloadNamespace('IainConnor\MockingJay\Annotations', static::getSrcRoot());
 
         return new MockingJay(
             [
