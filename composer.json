@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "fzaninotto/faker": "^1.6",
-        "iainconnor/cornucopia": "dev-master"
+        "iainconnor/cornucopia": "^1.0"
     },
     "license": "MIT",
     "authors": [
