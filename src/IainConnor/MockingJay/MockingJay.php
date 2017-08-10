@@ -96,9 +96,11 @@ class MockingJay {
      *
      * @param $class
      * @param int $depth
+     * @param array $data
      * @return object
      */
-	public function mock($class, $depth = 1) {
+    public function mock($class, $depth = 1, $data = [])
+    {
 
 	    if ( array_key_exists($class, $this->fakerProviders) ) {
 
@@ -116,9 +118,11 @@ class MockingJay {
      *
      * @param $instance
      * @param int $depth
+     * @param array $data
      * @return object
      */
-	public function mockInstance($instance, $depth = 1) {
+    public function mockInstance($instance, $depth = 1, $data = [])
+    {
 
 		$reflectedClass = new \ReflectionClass($instance);
 
@@ -127,7 +131,9 @@ class MockingJay {
 		foreach ($reflectedClass->getProperties() as $reflectedProperty) {
 			$reflectedProperty->setAccessible(true);
 
-			if ( $reflectedProperty->getValue($instance) === null ) {
+            if (array_key_exists($reflectedProperty->getName(), $data)) {
+                $reflectedProperty->setValue($instance, $data[$reflectedProperty->getName()]);
+            } else if ($reflectedProperty->getValue($instance) === null) {
 				foreach ($this->annotationReader->getPropertyAnnotations($reflectedProperty) as $propertyAnnotation) {
 					if ($propertyAnnotation instanceof TypeHint) {
 						/** @var $mockAnnotation \IainConnor\MockingJay\Annotations\Mock */
