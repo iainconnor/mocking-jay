@@ -204,12 +204,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "ea4244d0354634e020042278478c9842524b0459"
+                "reference": "e70d9612d9108ec07476f7c304f14b8e583b6494"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/ea4244d0354634e020042278478c9842524b0459",
-                "reference": "ea4244d0354634e020042278478c9842524b0459",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/e70d9612d9108ec07476f7c304f14b8e583b6494",
+                "reference": "e70d9612d9108ec07476f7c304f14b8e583b6494",
                 "shasum": ""
             },
             "require": {
@@ -246,7 +246,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2017-07-19 13:05:01"
+            "time": "2017-08-10 09:58:44"
         },
         {
             "name": "iainconnor/cornucopia",

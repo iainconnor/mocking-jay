@@ -9,13 +9,13 @@ use Doctrine\Common\Cache\ArrayCache;
 use Faker\Factory;
 use Faker\Generator;
 use IainConnor\Cornucopia\AnnotationReader;
+use IainConnor\Cornucopia\Annotations\TypeHint;
+use IainConnor\Cornucopia\CachedReader;
 use IainConnor\Cornucopia\Type;
 use Iainconnor\MockingJay\Annotations\Count;
 use IainConnor\MockingJay\Annotations\IgnoreMock;
 use IainConnor\MockingJay\Annotations\Mock;
-use IainConnor\Cornucopia\Annotations\TypeHint;
 use IainConnor\MockingJay\Annotations\Whitelist;
-use IainConnor\Cornucopia\CachedReader;
 
 class MockingJay {
 
@@ -106,7 +106,7 @@ class MockingJay {
         }
 
 		$reflectedClass = new \ReflectionClass($class);
-		$reflectedClassInstance = $reflectedClass->newInstance();
+        $reflectedClassInstance = $reflectedClass->newInstanceWithoutConstructor();
 
 		return $this->mockInstance($reflectedClassInstance, $depth);
 	}
