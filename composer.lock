@@ -204,12 +204,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "e70d9612d9108ec07476f7c304f14b8e583b6494"
+                "reference": "2d9813dbd31509dfaa1df5b78947fd19755e3c84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/e70d9612d9108ec07476f7c304f14b8e583b6494",
-                "reference": "e70d9612d9108ec07476f7c304f14b8e583b6494",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/2d9813dbd31509dfaa1df5b78947fd19755e3c84",
+                "reference": "2d9813dbd31509dfaa1df5b78947fd19755e3c84",
                 "shasum": ""
             },
             "require": {
@@ -246,20 +246,20 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2017-08-10 09:58:44"
+            "time": "2017-08-11 09:58:57"
         },
         {
             "name": "iainconnor/cornucopia",
-            "version": "1.0.8",
+            "version": "1.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/iainconnor/cornucopia.git",
-                "reference": "fdd8031a8a48b800e5efe7440ddccc62e5685889"
+                "reference": "382d2a739ba25f4bd87d780efcc18cdaf39a2f9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/iainconnor/cornucopia/zipball/fdd8031a8a48b800e5efe7440ddccc62e5685889",
-                "reference": "fdd8031a8a48b800e5efe7440ddccc62e5685889",
+                "url": "https://api.github.com/repos/iainconnor/cornucopia/zipball/382d2a739ba25f4bd87d780efcc18cdaf39a2f9a",
+                "reference": "382d2a739ba25f4bd87d780efcc18cdaf39a2f9a",
                 "shasum": ""
             },
             "require": {
@@ -283,7 +283,7 @@
                 }
             ],
             "description": "Expanded Annotation processor.",
-            "time": "2017-07-28T16:24:16+00:00"
+            "time": "2017-08-11T20:01:18+00:00"
         }
     ],
     "packages-dev": [],
